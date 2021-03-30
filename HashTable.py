@@ -7,6 +7,12 @@ class HashTable:
         self.arrayPrueba = [self.aviones for i in range(8)]
         self.arr = [self.arrayPrueba for i in range(self.maxSize)]
 
+    def getArray(self):
+        return self.arr
+
+    def setArray(self, arr):
+        self.arr = arr
+
     def makeHash(self,key):
         hashVal = 0
         p = 53
