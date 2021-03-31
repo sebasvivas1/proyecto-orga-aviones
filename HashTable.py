@@ -1,12 +1,13 @@
 from Airplane import *
+from functions import *
+from LinkedList import *
 class HashTable:
     def __init__(self):
 
         self.avionesIsFull = False
         self.maxSize = 3
-        self.aviones = [None for i in range(2)]
-        self.arrayPrueba = [self.aviones for i in range(8)]
-        self.arr = [self.arrayPrueba for i in range(self.maxSize)]
+        self.linked_list = LinkedList()
+        self.arr = [self.linked_list for i in range(self.maxSize)]
 
     def setAvionesIsFull(self):
         if aviones[0]!= None and aviones!= None:
