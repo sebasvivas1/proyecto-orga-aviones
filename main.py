@@ -5,6 +5,7 @@ hashTable = HashTable()
 
 def main():
 
-    print('hola')
+    hashTable.add('A12345678', 'Matienzo')
+    print(hashTable.printArray())
 
 main()

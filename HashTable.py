@@ -2,10 +2,15 @@ from Airplane import *
 class HashTable:
     def __init__(self):
 
+        self.avionesIsFull = False
         self.maxSize = 3
         self.aviones = [None for i in range(2)]
         self.arrayPrueba = [self.aviones for i in range(8)]
         self.arr = [self.arrayPrueba for i in range(self.maxSize)]
+
+    def setAvionesIsFull(self):
+        if aviones[0]!= None and aviones!= None:
+            self.avionesIsFull = True
 
     def getArray(self):
         return self.arr
@@ -25,7 +30,20 @@ class HashTable:
 
     def add(self,key,val):
         h = self.makeHash(key)
-        self.arr[h] = val
+        for group in self.arr[h]:
+            print(group)
+            if group[0] == None:
+                group[1] = val
+
+            # else:
+            #     if group[1] == None:
+            #         group[1] = val
+            #         break
+            #     else:
+            #         print("Ya todos estan llenos")
+
+            break
+
 
     def get(self,key):
         h = self.makeHash(key)
@@ -34,14 +52,27 @@ class HashTable:
     def printArray(self):
         print(self.arr)
 
-    def addNewAirplane(self, key, name, model):
+    # def addNewAirplane(self, key, name, model):
+    #     h = self.makeHash(key)
+    #     pilot = ''
+    #     value = [key, name, model, pilot]
+    #     if key in self.arr[0]:
+    #         print('El serial ya esta registrado.')
+    #     else:
+    #         Airplane(key, model, name, pilot)
+    #         self.add(h, value)
+    #         # print('Añadido satisfactoriamente.')
+
+    def delete(self,key):
         h = self.makeHash(key)
-        pilot = ''
-        value = [key, name, model, pilot]
-        if key in self.arr[0]:
-            print('El serial ya esta registrado.')
-        else:
-            Airplane(key, model, name, pilot)
-            self.add(key, value)
-            print('Añadido satisfactoriamente.')
+        for group in range(len(self.arr[h])):
+            if self.arr[h][group] == key:
+                print(self.arr[h][group])
+                self.arr[h] = None
+                break
+            else:
+                print('no es igual')
+
+
+
 
