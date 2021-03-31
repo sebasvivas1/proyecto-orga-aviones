@@ -9,19 +9,25 @@ def binary_search_name(array, element):
         [None o impresión]
     """
     first = 0 
-    last = len(product_list)-1
+    last = len(array)-1
     index = -1 
     while (first <= last) and (index == -1):
         mid = (first+last)//2 
-        if (product_list[mid]).name == product:
-            return (product_list[mid])
+        if (array[mid]).name == element:
+            return (array[mid])
         else: 
-            if product < (product_list[mid]).name:
+            if element < (array[mid]).name:
                 last = mid-1
             else: 
                 first = mid+1
     return print('¡Resultado no encontrado!') 
 
+
+def checkIfFull(array):
+    arrayFull = False 
+    if array[0]!= None and array[1]!= None:
+        arrayFull = True
+    return arrayFull
 
 def file_existence(file_name):
     """[Verifica si el archivo existe o no]
@@ -70,7 +76,7 @@ def plane_name():
             planeName = input("Ingrese el Nombre del Avión (15 carácteres máximo): ")
             if 0<len(planeName)<12:
                 break 
-            except:
+        except:
                 pass
     return planeName
 
