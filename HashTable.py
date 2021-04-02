@@ -29,21 +29,8 @@ class HashTable:
             p_pow = (p_pow * p) % self.maxSize
         return hashVal
 
-    def add(self,key,val):
-        h = self.makeHash(key)
-        for group in self.arr[h]:
-            print(group)
-            if group[0] == None:
-                group[1] = val
-
-            # else:
-            #     if group[1] == None:
-            #         group[1] = val
-            #         break
-            #     else:
-            #         print("Ya todos estan llenos")
-
-            break
+    def add(self,key,avion,listaModelo,listaNombre):
+        self.arr[key].add(avion,listaModelo,listaNombre)
 
 
     def get(self,key):
