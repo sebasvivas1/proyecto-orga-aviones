@@ -15,11 +15,15 @@ class LinkedList:
             yield itemValue
 
     def check_if_has_space(self, newAirplane):
+        filled = False 
         current = self.head
         while current is not None:
-            if not current.isFull:
+            if not current.checkIfFull():
                 current.updateData(newAirplane)
-                current = current.next
+                filled = True 
+            current = current.next
+        return filled
+                
         
     def find_airplane(self, value):
         current = self.head
@@ -60,166 +64,151 @@ class LinkedList:
         dictModelo = {}
         dictNombre = {}
         if self.size < 8:
-            self.check_if_has_space(data)
-            newNode = Node()
-            newNode.updateData(data)
-            if self.head is None:
-                self.head = newNode
-                self.tail = self.head
-                print('se anadio a la lista enlazada')
-            else:
-                newNode.previous = self.tail
-                self.tail.next = newNode
-                self.tail = newNode
-                self.size = self.size + 1
-                print('ahora se anadio a la lista enlazada')
-            dictModelo["model"] = data.model
-            dictModelo["serial"] = data.serial
-            dictModelCopy = dictModelo.copy()
+            if self.check_if_has_space(data):
+                self.display()                          # Hay que eliminar  
+                dictModelo["model"] = data.model
+                dictModelo["serial"] = data.serial
+                dictModelCopy = dictModelo.copy()
             
-            dictNombre["name"] = data.name
-            dictNombre["serial"] = data.serial
-            dictNombreCopy = dictNombre.copy()
-            
-            listaModelo.append(dictModelCopy)
-            listaNombre.append(dictNombreCopy)
-            return listaModelo, listaNombre
+                dictNombre["name"] = data.name
+                dictNombre["serial"] = data.serial
+                dictNombreCopy = dictNombre.copy()
+
+                listaModelo.append(dictModelCopy)
+                listaNombre.append(dictNombreCopy)
+                return listaModelo, listaNombre
+            else:  
+                newNode = Node()
+                newNode.updateData(data)
+                if self.head is None:
+                    self.head = newNode
+                    self.tail = self.head
+                    print('se anadio a la lista enlazada')
+                else:
+                    newNode.previous = self.tail
+                    self.tail.next = newNode
+                    self.tail = newNode
+                    self.size = self.size + 1
+                    print('ahora se anadio a la lista enlazada')
+                dictModelo["model"] = data.model
+                dictModelo["serial"] = data.serial
+                dictModelCopy = dictModelo.copy()
+                
+                dictNombre["name"] = data.name
+                dictNombre["serial"] = data.serial
+                dictNombreCopy = dictNombre.copy()
+
+                self.display()
+
+                listaModelo.append(dictModelCopy)
+                listaNombre.append(dictNombreCopy)
+                return listaModelo, listaNombre
         else:
             print("La lista está llena")
 
-
-    def delete2(self, serial, airplane_model, airplane_name):
+        def delete2(self, serial, airplane_model, airplane_name):
         current = self.head
+
+        # Verificar si la lista es vacía
         if self.head is None:
             print("La lista esta vacia.")
             return
 
+        # Borrar información de la cabeza o la misma cabeza
         if self.head.next is None:
             if current.data[0] is not None:
                 if current.data[0].serial == serial:
                     self.head.data[0] = None
-                    return
-                    # result1 = [x for x in airplane_model if not(x["serial"] == serial)]
-                    # result2 = [x for x in airplane_name if not(x["serial"] == serial)]
-                    # print(f"El avion de serial {serial} fue eliminado exitosamente")
-                    # return result1, result2
+                    result1 = [x for x in airplane_model if not(x["serial"] == serial)]
+                    result2 = [x for x in airplane_name if not(x["serial"] == serial)]
+                    print(f"El avion de serial {serial} fue eliminado exitosamente")
+                    return result1, result2
                     
             elif current.data[1] is not None:
                 if current.data[1].serial == serial:
                     self.head.data[1] = None
-                    return
-                    # result1 = [x for x in airplane_model if not(x["serial"] == serial)]
-                    # result2 = [x for x in airplane_name if not(x["serial"] == serial)]
-                    # print(f"El avion de serial {serial} fue eliminado exitosamente")
-                    # return result1, result2
+                    result1 = [x for x in airplane_model if not(x["serial"] == serial)]
+                    result2 = [x for x in airplane_name if not(x["serial"] == serial)]
+                    print(f"El avion de serial {serial} fue eliminado exitosamente")
+                    return result1, result2
                     
             else:
                 self.head = None
                 self.size = self.size -1
                 print("Avion no encontrado")
-            return
+                return
         
-
+        if self.head.data[0] is not None:
+                if self.head.data[0].serial == serial:
+                    pass
+                    
         
-
-                
-
-
-
+        elif self.head.data[1] is not None:
+                if self.head.data[1].serial == serial:
+                    pass
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def delete(self, target):
-    #     current = self.head
+    def delete(self, target):
+        current = self.head
         
-    #     if self.head is None:
-    #         print("Head is None")
-    #         raise Exception("No hay elementos en la lista")
+    # Verificar si la lista es vacía
+        if self.head is None:
+            print("Head is None")
+            raise Exception("No hay elementos en la lista")
 
-    #     if current.data[0] is not None:
-    
-    #         if self.head.data[0].serial == target:
-    #             if self.head.checkIfEmpty():
-    #                 self.size = self.size - 1 
-    #                 self.head = self.head.next
-    #             else:
-    #                 self.head.data[0] = None
+        if current.data[0] is not None:
+
+            if self.head.data[0].serial == target:
+                if self.head.checkIfEmpty():
+                    self.size = self.size - 1 
+                    self.head = self.head.next
+                else:
+                    self.head.data[0] = None
+                n = self.head
+                while n.next is not None:
+                    if n.data[0].serial == target:
+                        break
+                    n = n.next
+
+            elif self.head.data[1] == target:
+                if self.head.checkIfEmpty():
+                    self.size = self.size - 1 
+                    self.head = self.head.next
+                else:
+                    self.head.data[1] = None
                 
-    #             n = self.head
-    #             while n.next is not None:
-    #                 if n.data[0].serial == target:
-    #                     break
-    #                 n = n.next
+                n = self.head
+                while n.next is not None:
+                    if n.data[1].serial == target:
+                        break
+                    n = n.next
 
-    #         elif self.head.data[1] == target:
-    #             if self.head.checkIfEmpty():
-    #                 self.size = self.size - 1 
-    #                 self.head = self.head.next
-    #             else:
-    #                 self.head.data[1] = None
-                
-    #             n = self.head
-    #             while n.next is not None:
-    #                 if n.data[1].serial == target:
-    #                     break
-    #                 n = n.next
+        if current.data[1] is not None:
 
-    #     if current.data[1] is not None:
+            if n.next is not None:
+                if n.checkIfEmpty():
+                    n.previous.next = n.previous
+                    n.next.previous = n.previous
+                    self.size = self.size - 1
+                else:
+                    n.deleteData(target)
+            else:
+                if n.data[1].serial == target:
+                    if n.checkIfEmpty():
+                        n.previous.next = None
+                        self.size = self.size - 1
+                    else:
+                        n.deleteData(target)
+                elif n.data[1].serial == target:
+                    n.previous.next = None
+                    self.size = self.size -1
+            else:
+                return print('Avion no encontrado')
 
-    #         if n.next is not None:
-    #             if n.checkIfEmpty():
-    #                 n.previous.next = n.previous
-    #                 n.next.previous = n.previous
-    #                 self.size = self.size - 1
-    #             else:
-    #                 n.deleteData(target)
-    #         else:
-    #             if n.data[1].serial == target:
-    #                 if n.checkIfEmpty():
-    #                     n.previous.next = None
-    #                     self.size = self.size - 1
-    #                 else:
-    #                     n.deleteData(target)
-    #             elif n.data[1].serial == target:
-    #                 n.previous.next = None
-    #                 self.size = self.size -1
-    #         else:
-    #             return print('Avion no encontrado')
+
+
+
+
     
     def display(self):
         current = self.head
