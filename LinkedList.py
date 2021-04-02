@@ -106,7 +106,7 @@ class LinkedList:
         else:
             print("La lista está llena")
 
-        def delete2(self, serial, airplane_model, airplane_name):
+    def delete2(self, serial, airplane_model, airplane_name):
         current = self.head
 
         # Verificar si la lista es vacía
@@ -116,36 +116,86 @@ class LinkedList:
 
         # Borrar información de la cabeza o la misma cabeza
         if self.head.next is None:
-            if current.data[0] is not None:
-                if current.data[0].serial == serial:
+            if self.head.data[0] is not None:
+                if self.head.data[0].serial == serial:
                     self.head.data[0] = None
-                    result1 = [x for x in airplane_model if not(x["serial"] == serial)]
-                    result2 = [x for x in airplane_name if not(x["serial"] == serial)]
-                    print(f"El avion de serial {serial} fue eliminado exitosamente")
-                    return result1, result2
+                    print("Avion Eliminado")
+
+                    return serial
                     
-            elif current.data[1] is not None:
-                if current.data[1].serial == serial:
+            elif self.head.data[1] is not None:
+                if self.head.data[1].serial == serial:
                     self.head.data[1] = None
-                    result1 = [x for x in airplane_model if not(x["serial"] == serial)]
-                    result2 = [x for x in airplane_name if not(x["serial"] == serial)]
-                    print(f"El avion de serial {serial} fue eliminado exitosamente")
-                    return result1, result2
+                    print("Avion Eliminado")
+
+                    return serial
                     
             else:
                 self.head = None
                 self.size = self.size -1
                 print("Avion no encontrado")
-                return
+                return 
         
-        if self.head.data[0] is not None:
-                if self.head.data[0].serial == serial:
-                    pass
-                    
+        if self.head.data[0] is not None or self.head.data[1] is not None:
+            if self.head.data[0].serial == serial:
+                self.head.data[0] = None
+
+            elif self.head.data[1].serial == serial:
+                self.head.data[1] = None
+            
+            else:
+                self.head = self.head.next
+                self.head.previous = None
+                self.size += -1
+                print("Avion Eliminado")
+
+                return serial
+
+            return
         
-        elif self.head.data[1] is not None:
-                if self.head.data[1].serial == serial:
-                    pass
+        while current.next is not None:
+            if current.data[0] is not None:
+                if current.data[0] == serial:
+                    break
+            elif current.data[1] is not None:
+                if current.data[1] == serial:
+                    break
+            current = current.next
+
+
+        if current.next is not None:
+            if current.data[0] is not None:
+                if current.data[0].serial == serial:
+                    current.data[0] = None
+        
+            elif current.data[1] is not None:
+                if current.data[1].serial == serial:
+                    current.data[1] = None
+            
+            else:
+                current.previous.next = current.next
+                current.next.previous = current.previous
+                self.size += -1
+                print("Avion Eliminado")
+
+                return serial
+        else:
+            if current.data[0] is not None:
+                if current.data[0].serial == serial:
+                    current.data[0] = None
+        
+            elif current.data[1] is not None:
+                if current.data[1].serial == serial:
+                    current.data[1] = None
+            else:
+                current.previous.next = None
+                self.size += -1
+                print("Avion Eliminado")
+                return serial
+
+        
+
+
 
 
     def delete(self, target):
@@ -202,8 +252,8 @@ class LinkedList:
                 elif n.data[1].serial == target:
                     n.previous.next = None
                     self.size = self.size -1
-            else:
-                return print('Avion no encontrado')
+        else:
+            return print('Avion no encontrado')
 
 
 

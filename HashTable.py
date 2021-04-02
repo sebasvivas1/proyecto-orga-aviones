@@ -27,6 +27,7 @@ class HashTable:
         for char in key:
             hashVal = (hashVal + (ord(char)) * p_pow) % self.maxSize
             p_pow = (p_pow * p) % self.maxSize
+        print(hashVal)
         return hashVal
 
     def add(self,key,avion,listaModelo,listaNombre):
@@ -40,16 +41,6 @@ class HashTable:
     def printArray(self):
         print(self.arr)
 
-    # def addNewAirplane(self, key, name, model):
-    #     h = self.makeHash(key)
-    #     pilot = ''
-    #     value = [key, name, model, pilot]
-    #     if key in self.arr[0]:
-    #         print('El serial ya esta registrado.')
-    #     else:
-    #         Airplane(key, model, name, pilot)
-    #         self.add(h, value)
-    #         # print('Añadido satisfactoriamente.')
 
     def delete(self,key):
         h = self.makeHash(key)

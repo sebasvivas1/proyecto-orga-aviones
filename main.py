@@ -74,6 +74,11 @@ hashTable = HashTable()
 LinkedList = LinkedList()
 
 def main():
+    airplane_name = [
+]
+
+    airplane_model = [
+]
     pilot = ""
     searchSerial = ""
     name = ""
@@ -205,7 +210,11 @@ def main():
                 airplaneName = input('Introduzca el Nombre del Avion. \n ==> ')
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
                 hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
+                ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
+                airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
+                airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
+
+
                 # hashTable.getArray()[hash].find_airplane(searchSerial)
             
             elif searchtype == 2:
@@ -214,7 +223,11 @@ def main():
                 airplaneModel = input('Introduzca el Modelo del Avion. \n ==> ')
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
                 hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
+                ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
+                airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
+                airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
+
+
                 # hashTable.getArray()[hash].find_airplane(searchSerial)
             
             else:
