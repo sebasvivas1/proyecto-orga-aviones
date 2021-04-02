@@ -1,148 +1,123 @@
 from Airplane import *
 import functions
-from LinkedList import *
-"""def main():
-    
-    print("\n¡Bienvenido a la Base de Datos de Aviocc Airlines!")
-
-    while True: 
-
-        while True:
-            try:
-                user_choice = int(input("\n¿Qué operación desea efectuar?  \n1. Insertar Avión \n2. Buscar Avión \n3. Asignar Piloto a un Avión \n4. Liberar Avión \n5. Eliminar Avión de la Flota \n6. Salir \n>>>  "))
-                if user_choice not in range(7):
-                    raise ValueError
-                break
-            except ValueError:
-                print("\nERROR: Dato ingresado no forma parte de las opciones dadas")
-
-        if user_choice==1:
-            pass
-
-        elif user_choice==2:
-
-            while True: 
-
-                while True:
-                    try:
-                        search_choice = int(input("\n¿Cómo desea realizar la búsqueda? \n1. Por Serial \n2. Por Modelo \n3. Por Nombre \n>>>  "))
-                        if search_choice not in range(4):
-                            raise ValueError
-                        break
-                    except ValueError:
-                        print("\nERROR: Dato ingresado no forma parte de las opciones dadas")
-
-                if search_choice==1:
-                    print("Serial")
-                    break
-
-                elif search_choice==2:
-                    print("Modelo")
-                    break
-
-                elif search_choice==3:
-                    print("Nombre")
-                    break
-
-        elif user_choice==3:
-            pass
-
-        elif user_choice==4:
-            pass
-
-        elif user_choice==5:
-            pass
-
-        elif user_choice==6:
-            print("\n¡Hasta luego!")
-            break 
-
-if __name__ == "__main__":
-    main()
-    """
-
-airplane_name = [
-]
-
-airplane_model = [
-]
-
-
 from HashTable import HashTable
-
-hashTable = HashTable()
-LinkedList = LinkedList()
+import pickle 
 
 def main():
-    airplane_name = [
-]
 
-    airplane_model = [
-]
-    pilot = ""
-    searchSerial = ""
-    name = ""
-    model = ""
-    hash = 0
-    searchSerial = ""
+    hashTable = HashTable()
 
-    print(hashTable.getArray())
+    # Creacion de lista de diccionarios 
+    airplane_name = []
+    airplane_model = [] 
+    pilot = ""             
+
+    if functions.file_existence('hashTable.txt'):
+        with open('hashTable.txt', 'rb') as f:
+            hashTable.setArray(pickle.load(f))      
+    
+    if functions.file_existence('airplaneModel.txt'):
+        with open('airplaneModel.txt', 'rb') as f:
+            airplane_model = pickle.load(f)
+
+    if functions.file_existence('airplaneName.txt'):
+        with open('airplaneName.txt', 'rb') as f:
+            airplane_name = pickle.load(f)
 
     loop = True
     while loop:
-        print("\nBienvenido a la aerolinea de Aviones de Occidente Aviocc!\n")
+        print("\n¡Bienvenido a la Aerolinea de Aviones de Occidente Aviocc!\n")
         num_funcion = functions.numeros()
+
+        hashTable.showArray() 
+        print()
 
         # Ingresar un nuevo avion
         if num_funcion==1:
-            modelo  = functions.model_name()
-            name = functions.plane_name()
             serial = functions.validacion_serial()
+            while functions.check_if_exists(airplane_name, serial,  "serial"):
+                print("El serial previamente insertado ya existe en la base de datos, intentelo de nuevo")
+                serial = functions.validacion_serial()
+
+            modelo  = functions.model_name()
+            while functions.check_if_exists(airplane_model, modelo,  "model"):
+                print("El modelo previamente insertado ya existe en la base de datos, intentelo de nuevo")
+                modelo  = functions.model_name()
+
+            name = functions.plane_name()
+            while functions.check_if_exists(airplane_name, name,  "name"):
+                print("El nombre previamente insertado ya existe en la base de datos, intentelo de nuevo")
+                name = functions.plane_name()
+
             avion = Airplane(serial,modelo,name,pilot)
             hash = hashTable.makeHash(serial)
             hashTable.add(hash,avion, airplane_model,airplane_name)
-            print(hashTable.getArray()[hash].head.data[0].name)
-            print(airplane_name)
-            print(airplane_model)
+
+            #print(airplane_name)
+            #print(airplane_model)
         
         # Buscar un Avion
         elif num_funcion==2:
-            searchtype = int(input('Desea buscar por Nombre del Avion (1), por Modelo del Avion (2) o por Serial del Avion (3)? \n ==>'))
+            while True:
+                try:
+                    searchtype = int(input("""
+Desea buscar por:
 
+  1. Nombre del Avion
+  2. Modelo del Avion 
+  3. Serial del Avion 
+>>> """))
+                    break 
+                except ValueError:
+                    print("\nERROR: Dato ingresado no es númerico")
+                    
             # Buscar Avion por Nombre
             if searchtype == 1:
-                functions.sortNameList(airplane_name)
-                airplaneName = input('Introduzca el Nombre del Avion. \n ==> ')
+
+                airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
-                print(searchSerial)
                 hash = hashTable.makeHash(searchSerial)
                 hashTable.getArray()[hash].find_airplane(searchSerial)
                 
             # Buscar Avion por Modelo
             elif searchtype == 2:
-                functions.sortModelList(airplane_model)
-                airplaneModel = input('Introduzca el Modelo del Avion \n ==> ')
+
+                airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
                 hash = hashTable.makeHash(searchSerial)
                 hashTable.getArray()[hash].find_airplane(searchSerial)
             
             # Buscar Avion por Serial
             elif searchtype ==3:
-                pass
+                airplaneSerial = functions.validacion_serial()
+                hash = hashTable.makeHash(airplaneSerial)
+                hashTable.getArray()[hash].find_airplane(airplaneSerial)
             else:
-                print('Opcion invalida.')
+                print('Opcion invalida')
 
         # Asignar Piloto a un Avion
         elif num_funcion==3:
-            searchtype = int(input("Como desea elegir el avion? Por Nombre del Avion (1), por Modelo del Avion (2), por Serial del Avion (3)\n ==> "))
+            while True:
+                try:
+                    searchtype = int(input("""
+¿Cómo desea elegir el avion para asignarle el piloto? 
+  1. Por Nombre del Avion
+  2. Por Modelo del Avion 
+  3. Por Serial del Avion
+  >>> """))
+                    break 
+                except ValueError:
+                    print("\nERROR: Dato ingresado no es numérico")
 
             # Asignar Piloto por Nombre del Avion
             if searchtype == 1:
-                functions.sortNameList(airplane_name)
-                pilot = functions.pilot_name()
-                # Check if pilot is already in a plane.
-                #  .....
-                airplaneName = input('Introduzca el Nombre del Avion. \n ==> ')
+
+                pilot = functions.pilot_name() 
+                while hashTable.search_for_captain(pilot):
+                    print("El nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
+                    pilot = functions.pilot_name()
+                    
+                airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
                 hash = hashTable.makeHash(searchSerial)
                 hashTable.getArray()[hash].assign_pilot(searchSerial, pilot)
@@ -150,66 +125,102 @@ def main():
 
             # Asignar Piloto por Modelo del avion
             elif searchtype == 2:
-                functions.sortModelList(airplane_model)
-                pilot = functions.pilot_name()
-                # Check if pilot is already in a plane.
-                #  .....
-                airplaneModel = input('Introduzca el Modelo del Avion. \n ==> ')
+
+                pilot = functions.pilot_name() 
+                while hashTable.search_for_captain(pilot):
+                    print("El nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
+                    pilot = functions.pilot_name()
+
+                airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
                 hash = hashTable.makeHash(searchSerial)
                 hashTable.getArray()[hash].assign_pilot(searchSerial, pilot)
                 hashTable.getArray()[hash].find_airplane(searchSerial)
 
-
             # Asignar Piloto por Serial del Avion
             elif searchtype == 3: 
-                # Asigancion de piloto buscando el avion por el serial.
-                pass
+
+                pilot = functions.pilot_name() 
+                while hashTable.search_for_captain(pilot):
+                    print("El nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
+                    pilot = functions.pilot_name()
+
+                airplaneSerial = functions.validacion_serial()
+                hash = hashTable.makeHash(airplaneSerial)
+                hashTable.getArray()[hash].assign_pilot(airplaneSerial, pilot)
+                hashTable.getArray()[hash].find_airplane(airplaneSerial)
+
             else:
-                print("Invalid Option.")
+                print("Opción invalida")
 
         # Vaciar Piloto
         elif num_funcion==4:
 
-            searchtype = int(input("Como desea vaciar el avion? Por Nombre del Avion (1), por Modelo del Avion (2)\n ==> "))
+            while True:
+                try:
+                    searchtype = int(input("""
+¿Cómo desea vacíar el avion? 
+  1. Por Nombre del Avion
+  2. Por Modelo del Avion 
+  3. Por Serial del Avion
+  >>> """))
+                    break 
+                except ValueError:
+                    print("\nERROR: Dato ingresado no es numérico")
 
             # Vaciar Piloto del Avion por Nombre del Avion
             if searchtype == 1:
-                functions.sortNameList(airplane_name)
-                # Check if pilot is already in a plane.
-                #  .....
-                airplaneName = input('Introduzca el Nombre del Avion. \n ==> ')
+
+                airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
                 hash = hashTable.makeHash(searchSerial)
                 hashTable.getArray()[hash].delete_pilot(searchSerial)
+
                 hashTable.getArray()[hash].find_airplane(searchSerial)
             
             # Vaciar Piloto del Avion por Modelo del Avion
             elif searchtype == 2:
-                functions.sortModelList(airplane_model)
-                # Check if pilot is already in a plane.
-                #  .....
-                airplaneModel = input('Introduzca el Modelo del Avion. \n ==> ')
+
+                airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
                 hash = hashTable.makeHash(searchSerial)
+
+                hashTable.getArray()[hash].delete_pilot(searchSerial)
+                hashTable.getArray()[hash].find_airplane(searchSerial)
+            
+            # Vaciar Piloto del Avion por Serial del Avion
+            elif searchtype == 3:
+
+                airplaneSerial = functions.validacion_serial()
+                hash = hashTable.makeHash(airplaneSerial)
                 hashTable.getArray()[hash].delete_pilot(searchSerial)
                 hashTable.getArray()[hash].find_airplane(searchSerial)
             
             else:
-                print("Invalid Option")
+                print("Opción invalida")
 
         # Eliminar Avion
         elif num_funcion==5:
-
-            searchtype = int(input("Como desea eliminar el avion? Por Nombre del Avion (1), por Modelo del Avion (2)\n ==> "))
+            while True:
+                try:
+                    searchtype = int(input("""
+¿Cómo desea eliminar el avion de la flota? 
+1. Por Nombre del Avion
+2. Por Modelo del Avion 
+3. Por Serial del Avion
+>>> """))
+                    break 
+                except ValueError:
+                    print("\nERROR: Dato ingresado no es numérico")
 
             # Eliminar por nombre del avion
             if searchtype == 1:
-                functions.sortNameList(airplane_name)
 
-                airplaneName = input('Introduzca el Nombre del Avion. \n ==> ')
+                airplaneName = functions.plane_name()
+
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
                 hash = hashTable.makeHash(searchSerial)
+
                 ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
                 airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
                 airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
@@ -217,12 +228,14 @@ def main():
 
                 # hashTable.getArray()[hash].find_airplane(searchSerial)
             
+            # Eliminar por Modelo del avion
             elif searchtype == 2:
-                functions.sortModelList(airplane_model)
 
-                airplaneModel = input('Introduzca el Modelo del Avion. \n ==> ')
+                airplaneModel = functions.model_name()
+
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
                 hash = hashTable.makeHash(searchSerial)
+                
                 ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
                 airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
                 airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
@@ -230,14 +243,28 @@ def main():
 
                 # hashTable.getArray()[hash].find_airplane(searchSerial)
             
+            # Eliminar por Serial del avion
+            elif searchtype == 3: 
+
+                airplaneSerial = functions.validacion_serial()
+                hash = hashTable.makeHash(airplaneSerial)
+
+                ser = hashTable.getArray()[hash].delete2(airplaneSerial, airplane_model, airplane_name)
+                airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
+                airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
+
             else:
-                print("Invalid Option")
-        elif num_funcion == 7:
-            hashTable.getArray()[hash].display()
+                print("Opción inválida")
 
         exit = functions.salida()
-        if exit==0:
-            print("\nHasta pronto!")
+        if exit==2:
+            with open('hashTable.txt', 'wb') as file:
+                pickle.dump(hashTable.getArray(), file)
+            with open('airplaneModel.txt', 'wb') as file:
+                pickle.dump(airplane_model, file)
+            with open('airplaneName.txt', 'wb') as file:
+                pickle.dump(airplane_name, file)
+            print("\n¡Hasta pronto!")
             loop = False
 
 main()

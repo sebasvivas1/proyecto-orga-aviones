@@ -1,4 +1,5 @@
 from Node import *
+import functions 
 
 class LinkedList:
 
@@ -30,26 +31,46 @@ class LinkedList:
         while current is not None:
             if current.data[0] is not None:
                 if current.data[0].serial == value:
-                    print("Entro aqui")
                     return current.data[0].getAirplaneInfo()
             elif current.data[1] is not None:
                 if current.data[1].serial == value:
-                    print("Entro aqui tambien")
                     return current.data[1].getAirplaneInfo()
-            
             current = current.next
-        return print('Not found')
+        return print('El avión no fue localizado en la base de datos')
+
+    def find_pilot(self, captain):
+        current = self.head
+        while current is not None:
+            if current.data[0] is not None:
+                if current.data[0].pilot == captain:
+                    return True
+            elif current.data[1] is not None:
+                if current.data[1].pilot == captain:
+                    return True
+            current = current.next
+        return False
 
     def assign_pilot(self, value, pilot):
+        registrado = False 
         current = self.head
         while current is not None:
             if current.data[0] is not None:
                 if current.data[0].serial == value:
-                    current.data[0].pilot = pilot
-            if current.data[1] is not None:
+                    if current.data[0].pilot == "":
+                        current.data[0].pilot = pilot
+                        registrado = True
+                    else:
+                        print('\nEste avión ya tiene un piloto asignado, deberá liberarlo primero para asignarle un nuevo piloto')
+            elif current.data[1] is not None:
                 if current.data[1].serial == value:
-                    current.data[1].pilot = pilot
+                    if current.data[1].pilot == "":
+                        current.data[1].pilot = pilot
+                        registrado = True
+                    else:
+                        print('\nEste avión ya tiene un piloto asignado, deberá liberarlo primero para asignarle un nuevo piloto')
             current = current.next
+        if registrado:
+            print("Operación exitosa")
 
     def delete_pilot(self, value):
         current = self.head
@@ -63,55 +84,67 @@ class LinkedList:
     def add(self, data, listaModelo, listaNombre):
         dictModelo = {}
         dictNombre = {}
-        if self.size < 8:
+        contador = 0
+
+        if self.size == 7:
+            current = self.head
+            while current is not None:
+                if current.checkIfFull():
+                    contador += 1
+                current = current.next 
+
+        if contador == 7:
+            print("\nLa lista está llena")
+            return listaModelo, listaNombre
+
+        else:
+
             if self.check_if_has_space(data):
-                self.display()                          # Hay que eliminar  
+ 
                 dictModelo["model"] = data.model
                 dictModelo["serial"] = data.serial
                 dictModelCopy = dictModelo.copy()
-            
+
                 dictNombre["name"] = data.name
                 dictNombre["serial"] = data.serial
                 dictNombreCopy = dictNombre.copy()
-
                 listaModelo.append(dictModelCopy)
                 listaNombre.append(dictNombreCopy)
+                
+                listaModelo = functions.sortModelList(data.model)
+                listaNombre = functions.sortNameList(data.name) 
+
                 return listaModelo, listaNombre
+
             else:  
                 newNode = Node()
                 newNode.updateData(data)
                 if self.head is None:
                     self.head = newNode
                     self.tail = self.head
-                    print('se anadio a la lista enlazada')
+                    self.size = self.size + 1
                 else:
                     newNode.previous = self.tail
                     self.tail.next = newNode
                     self.tail = newNode
                     self.size = self.size + 1
-                    print('ahora se anadio a la lista enlazada')
                 dictModelo["model"] = data.model
                 dictModelo["serial"] = data.serial
                 dictModelCopy = dictModelo.copy()
-                
+
                 dictNombre["name"] = data.name
                 dictNombre["serial"] = data.serial
                 dictNombreCopy = dictNombre.copy()
-
-                self.display()
-
                 listaModelo.append(dictModelCopy)
                 listaNombre.append(dictNombreCopy)
                 return listaModelo, listaNombre
-        else:
-            print("La lista está llena")
 
     def delete2(self, serial, airplane_model, airplane_name):
         current = self.head
 
         # Verificar si la lista es vacía
         if self.head is None:
-            print("La lista esta vacia.")
+            print("\nLa lista esta vacia.")
             return
 
         # Borrar información de la cabeza o la misma cabeza
@@ -119,36 +152,35 @@ class LinkedList:
             if self.head.data[0] is not None:
                 if self.head.data[0].serial == serial:
                     self.head.data[0] = None
-                    print("Avion Eliminado")
-
+                    print("\nAvion Eliminado")
                     return serial
                     
             elif self.head.data[1] is not None:
                 if self.head.data[1].serial == serial:
                     self.head.data[1] = None
-                    print("Avion Eliminado")
-
+                    print("\nAvion Eliminado")
                     return serial
                     
             else:
                 self.head = None
                 self.size = self.size -1
-                print("Avion no encontrado")
-                return 
+                return
         
         if self.head.data[0] is not None or self.head.data[1] is not None:
             if self.head.data[0].serial == serial:
                 self.head.data[0] = None
+                print("\nAvion Eliminado")
+                return serial
 
             elif self.head.data[1].serial == serial:
                 self.head.data[1] = None
+                return serial 
             
             else:
                 self.head = self.head.next
                 self.head.previous = None
                 self.size += -1
-                print("Avion Eliminado")
-
+                print("\nAvion Eliminado")
                 return serial
 
             return
@@ -167,105 +199,42 @@ class LinkedList:
             if current.data[0] is not None:
                 if current.data[0].serial == serial:
                     current.data[0] = None
+                    return serial 
         
             elif current.data[1] is not None:
                 if current.data[1].serial == serial:
                     current.data[1] = None
-            
+                    return serial 
             else:
                 current.previous.next = current.next
                 current.next.previous = current.previous
                 self.size += -1
-                print("Avion Eliminado")
-
+                print("\nAvion Eliminado")
                 return serial
+
         else:
             if current.data[0] is not None:
                 if current.data[0].serial == serial:
                     current.data[0] = None
+                    print("\nAvion Eliminado")
+                    return serial 
         
             elif current.data[1] is not None:
                 if current.data[1].serial == serial:
                     current.data[1] = None
+                    print("\nAvion Eliminado")
+                    return serial 
             else:
                 current.previous.next = None
                 self.size += -1
                 print("Avion Eliminado")
                 return serial
 
-        
-
-
-
-
-    def delete(self, target):
-        current = self.head
-        
-    # Verificar si la lista es vacía
-        if self.head is None:
-            print("Head is None")
-            raise Exception("No hay elementos en la lista")
-
-        if current.data[0] is not None:
-
-            if self.head.data[0].serial == target:
-                if self.head.checkIfEmpty():
-                    self.size = self.size - 1 
-                    self.head = self.head.next
-                else:
-                    self.head.data[0] = None
-                n = self.head
-                while n.next is not None:
-                    if n.data[0].serial == target:
-                        break
-                    n = n.next
-
-            elif self.head.data[1] == target:
-                if self.head.checkIfEmpty():
-                    self.size = self.size - 1 
-                    self.head = self.head.next
-                else:
-                    self.head.data[1] = None
-                
-                n = self.head
-                while n.next is not None:
-                    if n.data[1].serial == target:
-                        break
-                    n = n.next
-
-        if current.data[1] is not None:
-
-            if n.next is not None:
-                if n.checkIfEmpty():
-                    n.previous.next = n.previous
-                    n.next.previous = n.previous
-                    self.size = self.size - 1
-                else:
-                    n.deleteData(target)
-            else:
-                if n.data[1].serial == target:
-                    if n.checkIfEmpty():
-                        n.previous.next = None
-                        self.size = self.size - 1
-                    else:
-                        n.deleteData(target)
-                elif n.data[1].serial == target:
-                    n.previous.next = None
-                    self.size = self.size -1
-        else:
-            return print('Avion no encontrado')
-
-
-
-
-
-    
     def display(self):
         current = self.head
         if(self.head == None):
-            print('List is empty!')
+            print('No hay aviones registrados')
             return
-        print("Nodes of list:")
         while(current != None):
             print(current.data)
             current = current.next
