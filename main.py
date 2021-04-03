@@ -24,37 +24,45 @@ def main():
         with open('airplaneName.txt', 'rb') as f:
             airplane_name = pickle.load(f)
 
+    print("\n¡Bienvenido a la Aerolinea de Aviones de Occidente Aviocc!\n")
+    
     loop = True
     while loop:
-        print("\n¡Bienvenido a la Aerolinea de Aviones de Occidente Aviocc!\n")
+        
         num_funcion = functions.numeros()
 
+        # HAY QUE BORRAR ESTO 
+        # ----------------------------
         hashTable.showArray() 
         print()
+         # ----------------------------
 
         # Ingresar un nuevo avion
         if num_funcion==1:
             serial = functions.validacion_serial()
             while functions.check_if_exists(airplane_name, serial,  "serial"):
-                print("El serial previamente insertado ya existe en la base de datos, intentelo de nuevo")
+                print("\nEl serial previamente insertado ya existe en la base de datos, intentelo de nuevo")
                 serial = functions.validacion_serial()
 
             modelo  = functions.model_name()
             while functions.check_if_exists(airplane_model, modelo,  "model"):
-                print("El modelo previamente insertado ya existe en la base de datos, intentelo de nuevo")
+                print("\nEl modelo previamente insertado ya existe en la base de datos, intentelo de nuevo")
                 modelo  = functions.model_name()
 
             name = functions.plane_name()
             while functions.check_if_exists(airplane_name, name,  "name"):
-                print("El nombre previamente insertado ya existe en la base de datos, intentelo de nuevo")
+                print("\nEl nombre previamente insertado ya existe en la base de datos, intentelo de nuevo")
                 name = functions.plane_name()
 
             avion = Airplane(serial,modelo,name,pilot)
             hash = hashTable.makeHash(serial)
             hashTable.add(hash,avion, airplane_model,airplane_name)
-
-            #print(airplane_name)
-            #print(airplane_model)
+        
+        # HAY QUE BORRAR ESTO 
+        # ----------------------------
+            print(airplane_name)
+            print(airplane_model)
+        # ----------------------------
         
         # Buscar un Avion
         elif num_funcion==2:
@@ -69,7 +77,7 @@ Desea buscar por:
 >>> """))
                     break 
                 except ValueError:
-                    print("\nERROR: Dato ingresado no es númerico")
+                    print("\nERROR: Debe ingresar un número")
                     
             # Buscar Avion por Nombre
             if searchtype == 1:
@@ -93,7 +101,7 @@ Desea buscar por:
                 hash = hashTable.makeHash(airplaneSerial)
                 hashTable.getArray()[hash].find_airplane(airplaneSerial)
             else:
-                print('Opcion invalida')
+                print('\nOpcion invalida')
 
         # Asignar Piloto a un Avion
         elif num_funcion==3:
@@ -107,14 +115,14 @@ Desea buscar por:
   >>> """))
                     break 
                 except ValueError:
-                    print("\nERROR: Dato ingresado no es numérico")
+                    print("\nERROR: Debe ingresar un numero")
 
             # Asignar Piloto por Nombre del Avion
             if searchtype == 1:
 
                 pilot = functions.pilot_name() 
                 while hashTable.search_for_captain(pilot):
-                    print("El nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
+                    print("\nEl nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
                     pilot = functions.pilot_name()
                     
                 airplaneName = functions.plane_name()
@@ -128,7 +136,7 @@ Desea buscar por:
 
                 pilot = functions.pilot_name() 
                 while hashTable.search_for_captain(pilot):
-                    print("El nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
+                    print("\nEl nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
                     pilot = functions.pilot_name()
 
                 airplaneModel = functions.model_name()
@@ -142,7 +150,7 @@ Desea buscar por:
 
                 pilot = functions.pilot_name() 
                 while hashTable.search_for_captain(pilot):
-                    print("El nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
+                    print("\nEl nombre del piloto previamente insertado ya tiene un avión asignado, ingrese otro nombre, por favor.")
                     pilot = functions.pilot_name()
 
                 airplaneSerial = functions.validacion_serial()
@@ -151,13 +159,13 @@ Desea buscar por:
                 hashTable.getArray()[hash].find_airplane(airplaneSerial)
 
             else:
-                print("Opción invalida")
+                print("\nOpción invalida")
 
         # Vaciar Piloto
         elif num_funcion==4:
 
             while True:
-                try:
+                try: 
                     searchtype = int(input("""
 ¿Cómo desea vacíar el avion? 
   1. Por Nombre del Avion
@@ -197,7 +205,7 @@ Desea buscar por:
                 hashTable.getArray()[hash].find_airplane(searchSerial)
             
             else:
-                print("Opción invalida")
+                print("\nOpción invalida")
 
         # Eliminar Avion
         elif num_funcion==5:
@@ -254,16 +262,19 @@ Desea buscar por:
                 airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
 
             else:
-                print("Opción inválida")
+                print("\nOpción inválida")
 
         exit = functions.salida()
+
         if exit==2:
+            # Almacenar datos en el disco duro 
             with open('hashTable.txt', 'wb') as file:
                 pickle.dump(hashTable.getArray(), file)
             with open('airplaneModel.txt', 'wb') as file:
                 pickle.dump(airplane_model, file)
             with open('airplaneName.txt', 'wb') as file:
                 pickle.dump(airplane_name, file)
+
             print("\n¡Hasta pronto!")
             loop = False
 

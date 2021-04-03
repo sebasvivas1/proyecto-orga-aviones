@@ -7,7 +7,7 @@ class Airplane:
 
     def getAirplaneInfo(self):
         return print (f'''
-        Avion: {self.name}
+        Nombre: {self.name}
         Serial: {self.serial}
         Model: {self.model}
         Pilot: {self.pilot}

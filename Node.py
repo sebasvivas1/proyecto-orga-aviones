@@ -17,9 +17,9 @@ class Node:
     def checkIfFull(self):
         if self.data[0]!= None and self.data[1] != None:
             self.isFull = True 
-            return self.isFull
+        return self.isFull
         
     def checkIfEmpty(self):
-        if self.data[0]!=None or self.data!=None:
+        if self.data[0]!=None or self.data[1]!=None:
             self.isEmpty = False 
-            return self.isEmpty
+        return self.isEmpty
