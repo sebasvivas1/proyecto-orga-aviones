@@ -29,8 +29,8 @@ def main():
         print("\n¡Bienvenido a la Aerolinea de Aviones de Occidente Aviocc!\n")
         num_funcion = functions.numeros()
 
-        hashTable.showArray() 
-        print()
+        # hashTable.showArray() 
+        # print()
 
         # Ingresar un nuevo avion
         if num_funcion==1:
@@ -58,14 +58,15 @@ def main():
         
         # Buscar un Avion
         elif num_funcion==2:
+        # if hashTable.checkIfEmpty() == False:
             while True:
                 try:
                     searchtype = int(input("""
 Desea buscar por:
 
-  1. Nombre del Avion
-  2. Modelo del Avion 
-  3. Serial del Avion 
+1. Nombre del Avion
+2. Modelo del Avion 
+3. Serial del Avion 
 >>> """))
                     break 
                 except ValueError:
@@ -76,8 +77,11 @@ Desea buscar por:
 
                 airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
-                hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('El Avion no existe mamaguevo, deja de intentar romper el programa')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
                 
             # Buscar Avion por Modelo
             elif searchtype == 2:
@@ -94,6 +98,8 @@ Desea buscar por:
                 hashTable.getArray()[hash].find_airplane(airplaneSerial)
             else:
                 print('Opcion invalida')
+            # else:
+            #     print('No hay aviones registrados!')
 
         # Asignar Piloto a un Avion
         elif num_funcion==3:
