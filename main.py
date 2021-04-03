@@ -88,8 +88,11 @@ Desea buscar por:
 
                 airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
-                hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('El Avion no existe mamaguevo, deja de intentar romper el programa')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
             
             # Buscar Avion por Serial
             elif searchtype ==3:
