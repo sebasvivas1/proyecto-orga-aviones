@@ -32,6 +32,8 @@ class HashTable:
     
     def showArray(self):
         for i in range(3):
+            print()
+            print(f" Estamos en la posicion: {i}")
             self.arr[i].display()
 
     def get(self,key):
