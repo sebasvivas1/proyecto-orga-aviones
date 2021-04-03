@@ -88,8 +88,8 @@ def pilot_name():
 def plane_name():
     while True:
         try:
-            planeName = input("\nIngrese el Nombre del Avión (15 carácteres máximo): ")
-            if 0<len(planeName)<12:
+            planeName = input("\nIngrese el Nombre del Avión (12 carácteres máximo): ")
+            if 0<len(planeName)<13:
                 break 
         except:
                 pass
