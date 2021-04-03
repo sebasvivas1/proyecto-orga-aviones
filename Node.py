@@ -4,7 +4,7 @@ class Node:
         self.next = None
         self.previous = None
         self.isFull = False
-        self.isEmpty = True 
+        self.isEmpty = False 
     
     def updateData(self, airplane):
         if self.data[0] == None:
@@ -20,6 +20,6 @@ class Node:
         return self.isFull
         
     def checkIfEmpty(self):
-        if self.data[0]!=None or self.data[1]!=None:
-            self.isEmpty = False 
+        if self.data[0] == None and self.data[1] == None:
+            self.isEmpty = True  
         return self.isEmpty

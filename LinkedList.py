@@ -150,10 +150,9 @@ class LinkedList:
         # Verificar si la lista es vacía
         if self.head is None:
             print("\nLa lista esta vacia.")
-            return
 
         # Borrar información de la cabeza o la misma cabeza
-        if self.head.next is None:
+        elif self.head.next is None:
             if self.head.data[0] is not None:
                 if self.head.data[0].serial == serial:
                     self.head.data[0] = None
@@ -161,6 +160,7 @@ class LinkedList:
                     if self.head.checkIfEmpty():
                         self.head = None
                         self.size = self.size -1
+                        print("\nUn grupo secundario fue vaciado")
                     return serial
                     
             elif self.head.data[1] is not None:
@@ -170,30 +170,30 @@ class LinkedList:
                     if self.head.checkIfEmpty():
                         self.head = None
                         self.size = self.size -1
-                    return serial 
-            return               
+                        print("\nUn grupo secundario fue vaciado")
+                    return serial              
         
-        if self.head.data[0] is not None or self.head.data[1] is not None:
-            if self.head.data[0] is not None:
-                if self.head.data[0].serial == serial:
-                    self.head.data[0] = None
-                    print("\nAvion Eliminado")
-                    if self.head.checkIfEmpty():
-                        self.head = self.head.next
-                        self.head.previous = None
-                        self.size += -1
-                    return serial
+        if self.head.data[0] is not None:
+            if self.head.data[0].serial == serial:
+                self.head.data[0] = None
+                print("\nAvion Eliminado")
+                if self.head.checkIfEmpty():
+                    self.head = self.head.next
+                    self.head.previous = None
+                    self.size += -1
+                    print("\nUn grupo secundario fue vaciado")
+                return serial
 
-            elif self.head.data[1] is not None:
-                if self.head.data[1].serial == serial:
-                    self.head.data[1] = None
-                    print("\nAvion Eliminado")
-                    if self.head.checkIfEmpty():
-                        self.head = self.head.next
-                        self.head.previous = None
-                        self.size += -1
-                    return serial 
-            return
+        elif self.head.data[1] is not None:
+            if self.head.data[1].serial == serial:
+                self.head.data[1] = None
+                print("\nAvion Eliminado")
+                if self.head.checkIfEmpty():
+                    self.head = self.head.next
+                    self.head.previous = None
+                    self.size += -1
+                    print("\nUn grupo secundario fue vaciado")
+                return serial 
         
         while current.next is not None:
             if current.data[0] is not None:
@@ -204,7 +204,6 @@ class LinkedList:
                     break
             current = current.next
 
-
         if current.next is not None:
             if current.data[0] is not None:
                 if current.data[0].serial == serial:
@@ -214,6 +213,7 @@ class LinkedList:
                         current.previous.next = current.next
                         current.next.previous = current.previous
                         self.size += -1
+                        print("\nUn grupo secundario fue vaciado")
                     return serial 
         
             elif current.data[1] is not None:
@@ -224,8 +224,8 @@ class LinkedList:
                         current.previous.next = current.next
                         current.next.previous = current.previous
                         self.size += -1
+                        print("\nUn grupo secundario fue vaciado")
                     return serial 
-            return
         else:
             if current.data[0] is not None:
                 if current.data[0].serial == serial:
@@ -234,6 +234,7 @@ class LinkedList:
                     if current.checkIfEmpty():
                         current.previous.next = None
                         self.size += -1
+                        print("\nUn grupo secundario fue vaciado")
                     return serial 
         
             elif current.data[1] is not None:
@@ -243,6 +244,7 @@ class LinkedList:
                     if current.checkIfEmpty():
                         current.previous.next = None
                         self.size += -1
+                        print("\nUn grupo secundario fue vaciado")
                     return serial 
             else:
                 print("\nEl avión no fue localizado en la Base de Datos")
@@ -254,7 +256,9 @@ class LinkedList:
             
             return
         while(current != None):
-            print(current.data)
+
+            if current.data[0] is not None:
+                current.data[0].getAirplaneInfo()
+            if current.data[1] is not None:
+                current.data[1].getAirplaneInfo()
             current = current.next
-
-
