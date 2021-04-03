@@ -252,7 +252,7 @@ class LinkedList:
     def display(self):
         current = self.head
         if(self.head == None):
-            print('No hay aviones registrados')
+            print(' No hay aviones registrados')
             
             return
         while(current != None):

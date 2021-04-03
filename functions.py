@@ -68,7 +68,7 @@ def file_existence(file_name):
 def model_name():
     while True:
         try:
-            model = input("\nIngrese el Módelo del Avión (20 carácteres máximo): ")
+            model = input("\nIngrese el Módelo del Avión (20 carácteres máximo): ").capitalize()
             if 0<len(model)<21:
                 break 
         except:
@@ -78,7 +78,7 @@ def model_name():
 def pilot_name():
     while True:
         try:
-            pilotName = input("\nIngrese el Nombre del Piloto (15 carácteres máximo): ")
+            pilotName = input("\nIngrese el Nombre del Piloto (15 carácteres máximo): ").capitalize()
             if 0<len(pilotName)<16:
                 break 
         except:
@@ -88,7 +88,7 @@ def pilot_name():
 def plane_name():
     while True:
         try:
-            planeName = input("\nIngrese el Nombre del Avión (12 carácteres máximo): ")
+            planeName = input("\nIngrese el Nombre del Avión (12 carácteres máximo): ").capitalize()
             if 0<len(planeName)<13:
                 break 
         except:
@@ -138,11 +138,12 @@ Por favor, ingrese el número correspondiente a la operación que desea ejecutar
   3. Asignarle un piloto a un avion
   4. Liberar un avion
   5. Eliminar un avion
+  6. Mostrar base de datos
   >>> '''))
         except ValueError:
             print("\nIngrese un número, por favor")
 
-        if num_operacion==1 or num_operacion==2 or num_operacion==3 or num_operacion==4 or num_operacion==5 :
+        if num_operacion==1 or num_operacion==2 or num_operacion==3 or num_operacion==4 or num_operacion==5 or num_operacion == 6 :
             loop = False
             return num_operacion
         else:

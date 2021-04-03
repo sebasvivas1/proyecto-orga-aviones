@@ -31,17 +31,6 @@ def main():
         
         num_funcion = functions.numeros()
 
-        # HAY QUE BORRAR ESTO 
-        # ----------------------------
-        hashTable.showArray() 
-        print()
-         # ----------------------------
-# HAY QUE BORRAR ESTO 
-        # ----------------------------
-        print(airplane_model)
-        print(airplane_name)
-        # ----------------------------
-
         # Ingresar un nuevo avion
         if num_funcion==1:
             serial = functions.validacion_serial()
@@ -89,8 +78,9 @@ Desea buscar por:
 
                 airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
+                # print(searchSerial)
                 if searchSerial == "":
-                    print('El Avion no existe mamaguevo, deja de intentar romper el programa')
+                    print('\nEl Avion no existe')
                 else:
                     hash = hashTable.makeHash(searchSerial)
                     hashTable.getArray()[hash].find_airplane(searchSerial)
@@ -101,7 +91,7 @@ Desea buscar por:
                 airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
                 if searchSerial == "":
-                    print('El Avion no existe mamaguevo, deja de intentar romper el programa')
+                    print('\nEl Avion no existe')
                 else:
                     hash = hashTable.makeHash(searchSerial)
                     hashTable.getArray()[hash].find_airplane(searchSerial)
@@ -139,9 +129,12 @@ Desea buscar por:
                     
                 airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
-                hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].assign_pilot(searchSerial, pilot)
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('\nEl Avion no existe')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    hashTable.getArray()[hash].assign_pilot(searchSerial, pilot)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
 
             # Asignar Piloto por Modelo del avion
             elif searchtype == 2:
@@ -153,9 +146,12 @@ Desea buscar por:
 
                 airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
-                hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].assign_pilot(searchSerial, pilot)
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('\nEl Avion no existe')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    hashTable.getArray()[hash].assign_pilot(searchSerial, pilot)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
 
             # Asignar Piloto por Serial del Avion
             elif searchtype == 3: 
@@ -193,28 +189,35 @@ Desea buscar por:
 
                 airplaneName = functions.plane_name()
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
-                hash = hashTable.makeHash(searchSerial)
-                hashTable.getArray()[hash].delete_pilot(searchSerial)
-
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('\nEl Avion no existe')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    hashTable.getArray()[hash].delete_pilot(searchSerial)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
             
             # Vaciar Piloto del Avion por Modelo del Avion
             elif searchtype == 2:
 
                 airplaneModel = functions.model_name()
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
-                hash = hashTable.makeHash(searchSerial)
-
-                hashTable.getArray()[hash].delete_pilot(searchSerial)
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('El Avion no existe')
+                else:     
+                    hash = hashTable.makeHash(searchSerial)
+                    hashTable.getArray()[hash].delete_pilot(searchSerial)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
             
             # Vaciar Piloto del Avion por Serial del Avion
             elif searchtype == 3:
 
                 airplaneSerial = functions.validacion_serial()
-                hash = hashTable.makeHash(airplaneSerial)
-                hashTable.getArray()[hash].delete_pilot(searchSerial)
-                hashTable.getArray()[hash].find_airplane(searchSerial)
+                if searchSerial == "":
+                    print('El Avion no existe')
+                else:
+                    hash = hashTable.makeHash(airplaneSerial)
+                    hashTable.getArray()[hash].delete_pilot(searchSerial)
+                    hashTable.getArray()[hash].find_airplane(searchSerial)
             
             else:
                 print("\nOpción invalida")
@@ -239,11 +242,13 @@ Desea buscar por:
                 airplaneName = functions.plane_name()
 
                 searchSerial = functions.binary_search_name_model(airplane_name, airplaneName, "name")
-                hash = hashTable.makeHash(searchSerial)
-
-                ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
-                airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
-                airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
+                if searchSerial == "":
+                    print('El Avion no existe')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
+                    airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
+                    airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
 
 
                 # hashTable.getArray()[hash].find_airplane(searchSerial)
@@ -254,11 +259,13 @@ Desea buscar por:
                 airplaneModel = functions.model_name()
 
                 searchSerial = functions.binary_search_name_model(airplane_model, airplaneModel, "model")
-                hash = hashTable.makeHash(searchSerial)
-                
-                ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
-                airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
-                airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
+                if searchSerial == "":
+                    print('El Avion no existe')
+                else:
+                    hash = hashTable.makeHash(searchSerial)
+                    ser = hashTable.getArray()[hash].delete2(searchSerial, airplane_model, airplane_name)
+                    airplane_model = [x for x in airplane_model if not(x["serial"] == ser)]
+                    airplane_name = [x for x in airplane_name if not(x["serial"] == ser)]
 
 
                 # hashTable.getArray()[hash].find_airplane(searchSerial)
@@ -275,6 +282,9 @@ Desea buscar por:
 
             else:
                 print("\nOpción inválida")
+
+        elif num_funcion == 6:
+            hashTable.showArray()
 
         exit = functions.salida()
 

@@ -33,7 +33,7 @@ class HashTable:
     def showArray(self):
         for i in range(3):
             print()
-            print(f" Estamos en la posicion: {i}")
+            print(f" Aviones en el grupo primario: {i}")
             self.arr[i].display()
 
     def get(self,key):
