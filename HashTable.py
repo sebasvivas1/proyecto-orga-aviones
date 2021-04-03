@@ -9,6 +9,7 @@ class HashTable:
         self.linked_list_1 = LinkedList()
         self.linked_list_2 = LinkedList()
         self.arr = [self.linked_list_0, self.linked_list_1, self.linked_list_2]
+        # self.arr = [self.linked_list_0, self.linked_list_1, self.linked_list_2]
 
     def getArray(self):
         return self.arr

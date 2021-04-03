@@ -252,9 +252,11 @@ class LinkedList:
     def display(self):
         current = self.head
         if(self.head == None):
-            print('\nNo hay aviones registrados')
+            print('No hay aviones registrados')
+            
             return
         while(current != None):
+
             if current.data[0] is not None:
                 current.data[0].getAirplaneInfo()
             if current.data[1] is not None:

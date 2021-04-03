@@ -23,7 +23,7 @@ def binary_search_name_model(array, element, str):
                 last = mid -1
             else: 
                 first = mid+1
-                
+    print(result)
     return result
 
 def check_if_exists(array, element, str):
