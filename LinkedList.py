@@ -250,9 +250,11 @@ class LinkedList:
     def display(self):
         current = self.head
         if(self.head == None):
-            print('\nNo hay aviones registrados')
+            print('No hay aviones registrados')
+            
             return
         while(current != None):
-            current.data[0].getAirplaneInfo()
-            current.data[1].getAirplaneInfo()
+            print(current.data)
             current = current.next
+
+
