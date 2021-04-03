@@ -68,7 +68,7 @@ def file_existence(file_name):
 def model_name():
     while True:
         try:
-            model = input("Ingrese el Módelo del Avión (20 carácteres máximo): ")
+            model = input("\nIngrese el Módelo del Avión (20 carácteres máximo): ")
             if 0<len(model)<21:
                 break 
         except:
@@ -78,7 +78,7 @@ def model_name():
 def pilot_name():
     while True:
         try:
-            pilotName = input("Ingrese el Nombre del Piloto (15 carácteres máximo): ")
+            pilotName = input("\nIngrese el Nombre del Piloto (15 carácteres máximo): ")
             if 0<len(pilotName)<16:
                 break 
         except:
@@ -88,7 +88,7 @@ def pilot_name():
 def plane_name():
     while True:
         try:
-            planeName = input("Ingrese el Nombre del Avión (15 carácteres máximo): ")
+            planeName = input("\nIngrese el Nombre del Avión (15 carácteres máximo): ")
             if 0<len(planeName)<12:
                 break 
         except:
@@ -98,7 +98,7 @@ def plane_name():
 def validacion_serial():
     loop = True
     while loop:
-        serial = input("Ingrese el Serial del Avión: ")
+        serial = input("\nIngrese el Serial del Avión: ")
         primera_letra = serial[0]
         numeros = serial[1:8]
         if len(serial) != 9:
