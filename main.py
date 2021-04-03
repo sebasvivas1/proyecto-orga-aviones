@@ -31,6 +31,17 @@ def main():
         
         num_funcion = functions.numeros()
 
+        # HAY QUE BORRAR ESTO 
+        # ----------------------------
+        hashTable.showArray() 
+        print()
+         # ----------------------------
+# HAY QUE BORRAR ESTO 
+        # ----------------------------
+        print(airplane_model)
+        print(airplane_name)
+        # ----------------------------
+
         # Ingresar un nuevo avion
         if num_funcion==1:
             serial = functions.validacion_serial()
@@ -51,6 +62,11 @@ def main():
             avion = Airplane(serial,modelo,name,pilot)
             hash = hashTable.makeHash(serial)
             hashTable.add(hash,avion, airplane_model,airplane_name)
+            # Borrar
+            print(airplane_name)
+            print(airplane_model)
+
+
         
         # Buscar un Avion
         elif num_funcion==2:
@@ -96,7 +112,7 @@ Desea buscar por:
                 hash = hashTable.makeHash(airplaneSerial)
                 hashTable.getArray()[hash].find_airplane(airplaneSerial)
             else:
-                print('Opcion invalida')
+                print('\nOpcion invalida')
             
 
         # Asignar Piloto a un Avion
